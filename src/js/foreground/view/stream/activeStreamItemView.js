@@ -1,9 +1,11 @@
-﻿define(function (require) {
+define(function (require) {
     'use strict';
 
     var TimeArea = require('foreground/model/timeArea');
+    var TitleArea = require('foreground/model/titleArea');
     var Tooltip = require('foreground/view/behavior/tooltip');
     var TimeAreaView = require('foreground/view/stream/timeAreaView');
+    var TitleAreaView = require('foreground/view/stream/titleAreaView')
     var ActiveStreamItemTemplate = require('text!template/stream/activeStreamItem.html');
 
     var ActiveStreamItemView = Marionette.LayoutView.extend({
@@ -12,7 +14,8 @@
 
         regions: function () {
             return {
-                timeAreaRegion: '#' + this.id + '-timeAreaRegion'
+                timeAreaRegion: '#' + this.id + '-timeAreaRegion',
+                titleAreaRegion: '#' + this.id + '-titleAreaRegion'
             };
         },
 
@@ -35,6 +38,12 @@
                 this.$el.on('webkitTransitionEnd', this._onTransitionInComplete.bind(this));
             }
             
+            this.titleAreaRegion.show(new TitleAreaView({
+                model: new TitleArea({
+                    title: this.model.get('song').get('title')
+                })
+            }));
+
             this.timeAreaRegion.show(new TimeAreaView({
                 model: new TimeArea({
                     totalTime: this.model.get('song').get('duration')

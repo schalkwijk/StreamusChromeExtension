@@ -24,7 +24,7 @@
         
         //  Only log client errors to the database in a deploy environment, not when debugging locally.
         _warnDebugEnabled: function(message) {
-            console.warn('Debugging enabled; Message:' + message);
+            console.warn('Debugging enabled; Message:' + JSON.stringify(message));
         },
 
         _onChromeRuntimeGetPlatformInfo: function (platformInfo) {
@@ -40,8 +40,15 @@
         },
         
         _createClientError: function (message, url, lineNumber, error) {
-            if (Streamus.localDebug && !Streamus.testing) {
-                this._warnDebugEnabled(message);
+            if (!Streamus.testing) {
+                this._warnDebugEnabled({
+                  message: message,
+                  url: url,
+                  lineNumber: lineNumber,
+                  operatingSystem: this.get('platformInfo').os,
+                  architecture: this.get('platformInfo').arch,
+                  error: error
+                });
                 return;
             }
 
