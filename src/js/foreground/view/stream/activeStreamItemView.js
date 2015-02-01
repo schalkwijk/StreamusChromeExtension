@@ -40,7 +40,7 @@ define(function (require) {
             
             this.titleAreaRegion.show(new TitleAreaView({
                 model: new TitleArea({
-                    title: this.model.get('song').get('title')
+                    song: this.model.get('song')
                 })
             }));
 

@@ -18,7 +18,7 @@
             });
             
             DialogView.prototype.initialize.apply(this, arguments);
-        }, 
+        },
         
         onSubmit: function () {
             this.contentView.createPlaylist();
